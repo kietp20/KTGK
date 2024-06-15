@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Them Nhan Vien </title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5">
+    <h1>Them Nhan Vien</h1>
+    <form th:action="@{/nhanviens/add}" th:object="${nhanvien}" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+        <div class="mb-3">
+            <label for="id" class="form-label">id:</label>
+            <input type="text" th:field="*{id}" class="form-control" id="id"  required>
+            <div class="text-danger" th:if="${#fields.hasErrors('id')}"
+                 th:errors="*{id}"></div>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="tenNV" class="form-label">Name:</label>
+            <input type="text" th:field="*{tenNV}" class="form-control" id="tenNV"  required>
+            <div class="text-danger" th:if="${#fields.hasErrors('tenNV')}"
+                 th:errors="*{tenNV}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="phai" class="form-label">Phai:</label>
+            <input type="text" th:field="*{phai}" class="form-control" id="phai"  required>
+            <div class="text-danger" th:if="${#fields.hasErrors('phai')}"
+                 th:errors="*{phai}"></div>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="noiSinh" class="form-label">Nơi Sinh:</label>
+            <input type="text" th:field="*{noiSinh}" class="form-control" id="noiSinh"  required>
+            <div class="text-danger" th:if="${#fields.hasErrors('noiSinh')}"
+                 th:errors="*{noiSinh}"></div>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="phongban" class="form-label">Phòng Ban:</label>
+            <select th:field="*{phongban}" class="form-control" id="phongban">
+                <option th:each="phongban : ${phongbans}"
+                        th:value="${phongban.id}" th:text="${phongban.tenP}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="Luong" class="form-label">Luong: </label>
+            <input type="text" th:field="*{Luong}" class="form-control" id="Luong"  required>
+            <div class="text-danger" th:if="${#fields.hasErrors('Luong')}"
+                 th:errors="*{Luong}"></div>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Add NhanVien</button>
+        <a th:href="@{/nhanviens}" class="btn btn-link">Cancel</a>
+    </form>
+</section>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+</script>
+</body>
+</html>

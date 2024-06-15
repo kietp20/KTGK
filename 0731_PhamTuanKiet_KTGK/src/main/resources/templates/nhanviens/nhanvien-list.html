@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}"
+      style="margin-left: 50px; margin-right: 50px;">
+<head>
+    <title th:text="${title} ?: 'Product'">QUAN LY NHAN VIEN</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<section layout:fragment="content">
+    <div style="text-align: center; padding:40px; background-color: cyan;">
+        <h1>DANH SACH NHAN VIEN</h1>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/nhanviens/add}" class="btn btn-primary mb-3">Them nhan vien</a>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Ten_NV</th>
+            <th>Phai</th>
+            <th>Noi Sinh</th>
+            <th>Ten Phong</th>
+            <th>Luong</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="nhanvien : ${nhanviens}">
+            <td th:text="${nhanvien.id}"></td>
+            <td th:text="${nhanvien.tenNV}"></td>
+            <td>
+                <img th:src="${nhanvien.phai == 'NAM' ? '/images/man.jpg' : '/images/woman.jpg'}" alt="Phai" width="50" height="50"/>
+            </td>
+            <td th:text="${nhanvien.noiSinh}"></td>
+            <td th:text="${nhanvien.phongban.tenP}"></td>
+            <td th:text="${nhanvien.luong}"></td>
+            <td>
+                <div sec:authorize="hasAuthority('ADMIN')">
+                    <a th:href="@{/nhanviens/edit/{id}(id=${nhanvien.id})}" class="btn btn-success btn-sm">Sua</a>
+                    <a th:href="@{/nhanviens/delete/{id}(id=${nhanvien.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không?')">Xoa</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{/nhanviens(page=${currentPage - 1})}">Previous</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage} ? 'active'">
+                <a class="page-link" th:href="@{/nhanviens(page=${i})}" th:text="${i + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+                <a class="page-link" th:href="@{/nhanviens(page=${currentPage + 1})}">Next</a>
+            </li>
+        </ul>
+    </div>
+</section>
+</body>
+</html>
